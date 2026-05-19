@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quinn Martin | Player Development • Analytics • Scouting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg-alt: #0c0f18;
+      --card: #111624;
+      --accent: #3fb4ff;
+      --accent-soft: rgba(63, 180, 255, 0.12);
+      --text: #f5f7ff;
+      --muted: #a5afc7;
+      --border: #22283a;
+      --danger: #ff6b6b;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --radius-sm: 6px;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
+      --shadow-subtle: 0 10px 30px rgba(0, 0, 0, 0.35);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: #f7f8fa;
+      color: var(--text);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+    }
+
+    /* NAVBAR */
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: linear-gradient(
+        to bottom,
+        rgba(5, 6, 10, 0.92),
+        rgba(5, 6, 10, 0.75),
+        transparent
+      );
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px 20px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #3fb4ff, #7b5cff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      color: #05060a;
+      box-shadow: 0 0 0 2px rgba(63, 180, 255, 0.4);
+    }
+
+    .nav-name {
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-size: 15px;
+    }
+
+    .nav-tagline {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .nav-right {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .nav-link {
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      cursor: pointer;
+      background: transparent;
+    }
+
+    .nav-link:hover {
+      border-color: rgba(63, 180, 255, 0.4);
+      color: var(--text);
+      background: rgba(63, 180, 255, 0.06);
+    }
+
+    .nav-link.primary {
+      border-color: rgba(63, 180, 255, 0.7);
+      background: linear-gradient(
+        135deg,
+        rgba(63, 180, 255, 0.18),
+        rgba(123, 92, 255, 0.18)
+      );
+      color: var(--text);
+    }
+
+    /* HERO */
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+      gap: 32px;
+      margin-top: 32px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-main {
+      padding: 24px 24px 26px;
+      border-radius: 20px;
+      background: radial-gradient(circle at top left, #1f2740, #0a0d16 55%);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(63, 180, 255, 0.12);
+      border: 1px solid rgba(63, 180, 255, 0.4);
+      color: var(--accent);
+      font-size: 11px;
+      margin-bottom: 14px;
+    }
+
+    .hero-pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #3fb4ff;
+      box-shadow: 0 0 0 4px rgba(63, 180, 255, 0.25);
+    }
+
+    .hero-title {
+      font-size: 30px;
+      line-height: 1.15;
+      letter-spacing: 0.01em;
+      margin-bottom: 10px;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 18px;
+    }
+
+    .hero-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .metric-pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(5, 6, 10, 0.6);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .metric-pill strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 13px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3fb4ff, #7b5cff);
+      border-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+    }
+
+    .btn-outline {
+      border-color: rgba(255, 255, 255, 0.12);
+      background: rgba(5, 6, 10, 0.7);
+      color: var(--muted);
+    }
+
+    .hero-note {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .hero-orbit {
+      position: absolute;
+      right: -40px;
+      bottom: -40px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      border: 1px dashed rgba(63, 180, 255, 0.35);
+      background: radial-gradient(circle at 30% 20%, #3fb4ff22, transparent 60%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.9;
+    }
+
+    .hero-orbit-inner {
+      width: 120px;
+      height: 120px;
+      border-radius: 999px;
+      border: 1px solid rgba(123, 92, 255, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      text-align: center;
+      color: var(--muted);
+      background: radial-gradient(circle at top, #151a2b, #05060a);
+    }
+
+    .hero-side {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .hero-card {
+      padding: 16px 16px 14px;
+      border-radius: 16px;
+      background: rgba(5, 6, 10, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .hero-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .hero-card-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .hero-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      background: rgba(10, 12, 20, 0.9);
+    }
+
+    .chip.accent {
+      border-color: rgba(63, 180, 255, 0.6);
+      color: var(--accent);
+      background: rgba(63, 180, 255, 0.08);
+    }
+
+    /* SECTIONS */
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .section-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.4fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 860px) {
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      padding: 14px 14px 12px;
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .card-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(63, 180, 255, 0.08);
+      color: var(--accent);
+      border: 1px solid rgba(63, 180, 255, 0.4);
+      white-space: nowrap;
+      height: fit-content;
+    }
+
+    .card-body {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .meta-pill {
+      font-size: 11px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(5, 6, 10, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+    }
+
+    .card-link {
+      font-size: 11px;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-link span {
+      font-size: 13px;
+    }
+
+    /* CONTACT */
+
+    .contact-card {
+      padding: 18px 16px 16px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #111624, #090c14);
+      border: 1px solid rgba(63, 180, 255, 0.4);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .contact-item {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .contact-item strong {
+      color: var(--text);
+    }
+
+    footer {
+      margin-top: 40px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* ANCHOR OFFSET */
+
+    .anchor {
+      scroll-margin-top: 80px;
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <div class="nav-avatar">Q</div>
+        <div>
+          <div class="nav-name">Quinn Martin</div>
+          <div class="nav-tagline">
+            Player Development • Baseball Analytics • Scouting
+          </div>
+        </div>
+      </div>
+      <nav class="nav-right">
+        <button class="nav-link" onclick="document.getElementById('player-dev').scrollIntoView({behavior:'smooth'})">Player Development</button>
+        <button class="nav-link" onclick="document.getElementById('analytics').scrollIntoView({behavior:'smooth'})">Analytics</button>
+        <button class="nav-link" onclick="document.getElementById('scouting').scrollIntoView({behavior:'smooth'})">Scouting</button>
+        <button class="nav-link" onclick="document.getElementById('writing').scrollIntoView({behavior:'smooth'})">Writing</button>
+        <button class="nav-link" onclick="document.getElementById('tech').scrollIntoView({behavior:'smooth'})">Tech Stack</button>
+        <button class="nav-link primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-main">
+        <div class="hero-pill">
+          <div class="hero-pill-dot"></div>
+          Player Development • Analytics • Scouting
+        </div>
+        <h1 class="hero-title">
+          Data‑driven player development and scouting with real on‑field impact.
+        </h1>
+        <p class="hero-subtitle">
+          Blending tech, data, and on‑field coaching to evaluate, develop, and communicate about players in a way that
+          actually moves the needle.
+        </p>
+
+        <div class="hero-metrics">
+          <div class="metric-pill"><strong>200+</strong> individualized lessons</div>
+          <div class="metric-pill"><strong>30+</strong> athletes coached</div>
+          <div class="metric-pill"><strong>$10,000+</strong> lesson revenue</div>
+          <div class="metric-pill"><strong>25+</strong> paid pieces</div>
+          <div class="metric-pill"><strong>4</strong> podcast episodes</div>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#player-dev" class="btn btn-primary">View Portfolio</a>
+          <a href="#analytics" class="btn btn-outline">See Analytics Work</a>
+        </div>
+        <div class="hero-note">
+          Built around real work: development plans, scouting reports, data projects, and tech‑driven training.
+        </div>
+
+        <div class="hero-orbit">
+          <div class="hero-orbit-inner">
+            Player development<br />+ scouting<br />+ analytics<br /><br />
+            One integrated portfolio.
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-side">
+        <div class="hero-card">
+          <div class="hero-card-title">Profile Snapshot</div>
+          <div class="hero-card-sub">
+            Player Development Coach • Baseball Writer & Scouting Analyst • Business/Data Analyst.
+          </div>
+          <div class="hero-chip-row">
+            <span class="chip accent">Player Development</span>
+            <span class="chip accent">Baseball Analytics</span>
+            <span class="chip">Scouting Reports</span>
+            <span class="chip">Data Cleaning</span>
+            <span class="chip">Tech‑enabled Training</span>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-card-title">What this site shows</div>
+          <div class="hero-card-sub">
+            Concrete work samples across development, analytics, and scouting—exactly what hiring managers want to see.
+          </div>
+          <div class="hero-chip-row">
+            <span class="chip">Development plans</span>
+            <span class="chip">Pitch & swing analysis</span>
+            <span class="chip">Database projects</span>
+            <span class="chip">Draft & CCBL reports</span>
+            <span class="chip">Writing samples</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- PLAYER DEVELOPMENT -->
+    <section id="player-dev" class="section anchor">
+      <div class="section-header">
+        <h2 class="section-title">Player Development</h2>
+        <p class="section-subtitle">
+          Individual plans, tech‑driven training, and development‑focused scouting.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Grayson Bhogal Development Plan</h3>
+            <span class="card-tag">Development Plan</span>
+          </div>
+          <p class="card-body">
+            Full individualized roadmap outlining mechanical priorities, approach changes, and training progressions for
+            Grayson Bhogal, tying tech feedback directly into on‑field work.
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">Individual plan</span>
+            <span class="meta-pill">Hitting development</span>
+            <span class="meta-pill">Tech‑informed</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://docs.google.com/document/d/1IyAdZuvts_ARWBKjJ3Ij5ygDuYh1qrclB4sXnyXzRw8/edit?usp=sharing" target="_blank" rel="noopener">
+              View document <span>↗</span>
+            </a>
+            <span>Real player development deliverable</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Trajekt Trained Pitchers</h3>
+            <span class="card-tag">Machine Training</span>
+          </div>
+          <p class="card-body">
+            Documentation of pitchers trained on Trajekt, including pitch profiles, usage, and how machine work was
+            integrated into game‑relevant development.
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">Trajekt</span>
+            <span class="meta-pill">Pitch design</span>
+            <span class="meta-pill">Training environment</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://docs.google.com/document/d/10tSXMCaAbf7ABu52elRKWh5570Y7-PuqifJoewaP_RA/edit?usp=sharing" target="_blank" rel="noopener">
+              View document <span>↗</span>
+            </a>
+            <span>Applied tech in development</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="grid-2" style="margin-top: 16px;">
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Cape Cod League: 10 Prospects to Watch</h3>
+            <span class="card-tag">CCBL Development</span>
+          </div>
+          <p class="card-body">
+            Prospect report that blends scouting looks with development‑oriented notes on Ryder Helfrick, Nick Dumesnil,
+            Kyle Lodise, Zion Rose, and others—focusing on tools, approach, and growth areas.
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">CCBL</span>
+            <span class="meta-pill">Prospect dev</span>
+            <span class="meta-pill">Hit/power/speed</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://1drv.ms/w/c/a44a507d394c9c14/IQAU_R7rwVLmT7oWzZuwG96EAb52WObXTvsHFAjpk2-sDKE?e=byp0qw" target="_blank" rel="noopener">
+              View document <span>↗</span>
+            </a>
+            <span>Development‑framed scouting</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Intriguing Underslot Deals – 2024 Draft</h3>
+            <span class="card-tag">Draft & Dev</span>
+          </div>
+          <p class="card-body">
+            Deep dives on arms like Chris Cortez, Nate Dohm, LP Langevin, and others, with clear role projections and
+            development paths (reliever vs starter, pitch mix, command growth).
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">2024 Draft</span>
+            <span class="meta-pill">Pitching dev</span>
+            <span class="meta-pill">Role projection</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://1drv.ms/b/c/a44a507d394c9c14/IQAUnEw5fVBKIICkIp8AAAAAARsBw62m6UmWPtBAwWfI49A?e=mSvyK3" target="_blank" rel="noopener">
+              View document <span>↗</span>
+            </a>
+            <span>Development‑oriented draft lens</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section id="analytics" class="section anchor">
+      <div class="section-header">
+        <h2 class="section-title">Analytics & Data Projects</h2>
+        <p class="section-subtitle">
+          Database work, pitch modeling, and early‑season signal hunting.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Players Database Duplicate Cleanup</h3>
+            <span class="card-tag">Data Project</span>
+          </div>
+          <p class="card-body">
+            Project writeup detailing how a players database was cleaned and deduplicated, including logic, edge cases,
+            and workflow design—directly applicable to ops and analytics roles.
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">Data cleaning</span>
+            <span class="meta-pill">Deduplication</span>
+            <span class="meta-pill">Process design</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://docs.google.com/document/d/1AXX2bGuDnqA-4jB0MN-T9WJZXTAAKkpO3dwp2jmv-1c/edit?usp=sharing" target="_blank" rel="noopener">
+              View document <span>↗</span>
+            </a>
+            <span>Ops‑relevant analytics work</span>
+          </div>
+        </article>
+
+      <div class="grid-2" style="margin-top: 16px;">
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Intriguing Data Points from Opening Weekend</h3>
+            <span class="card-tag">Signal Hunting</span>
+          </div>
+          <p class="card-body">
+            Early‑season analytics piece surfacing meaningful outliers and trends from opening weekend—bridging raw data
+            with scouting context.
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">Early‑season data</span>
+            <span class="meta-pill">Outlier detection</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://docs.google.com/document/d/1Pp8hVz9GjVp3pmhBNNPyAXmlHp7x-CF8yaDRIsmaN0E/edit?usp=sharing" target="_blank" rel="noopener">
+              View document <span>↗</span>
+            </a>
+            <span>Analytics + feel blend</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Outlier Pitches Article</h3>
+            <span class="card-tag">Pitch Modeling</span>
+          </div>
+          <p class="card-body">
+            Long‑form breakdown of outlier pitch shapes and movement profiles—how certain pitches break models and what
+            that means for evaluation and development.
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">Pitch movement</span>
+            <span class="meta-pill">Model outliers</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://docs.google.com/document/d/10tSXMCaAbf7ABu52elRKWh5570Y7-PuqifJoewaP_RA/edit?usp=sharing" target="_blank" rel="noopener">
+              View document <span>↗</span>
+            </a>
+            <span>Analytics‑driven writing</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SCOUTING -->
+    <section id="scouting" class="section anchor">
+      <div class="section-header">
+        <h2 class="section-title">Scouting Reports & Live Looks</h2>
+        <p class="section-subtitle">
+          Draft, CCBL, and game‑specific evaluations with clear role projections.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Mitch Voit vs Max Muncy</h3>
+            <span class="card-tag">Comparative Report</span>
+          </div>
+          <p class="card-body">
+            Side‑by‑side evaluation of two infielders, comparing hit tools, defensive value, approach, and long‑term
+            projection in a way that mirrors internal decision‑making.
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">Infielders</span>
+            <span class="meta-pill">Comparative scouting</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://docs.google.com/document/d/1AXX2bGuDnqA-4jB0MN-T9WJZXTAAKkpO3dwp2jmv-1c/edit?usp=sharing" target="_blank" rel="noopener">
+              View document <span>↗</span>
+            </a>
+            <span>Decision‑oriented writeup</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">UCLA at Rutgers Live Look</h3>
+            <span class="card-tag">Live Look</span>
+          </div>
+          <p class="card-body">
+            In‑game evaluation from UCLA at Rutgers, capturing pitch‑by‑pitch notes, approach observations, and how
+            players’ tools actually played in a live environment.
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">Game report</span>
+            <span class="meta-pill">Live evaluation</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://docs.google.com/document/d/1IyAdZuvts_ARWBKjJ3Ij5ygDuYh1qrclB4sXnyXzRw8/edit?usp=sharing" target="_blank" rel="noopener">
+              View document <span>↗</span>
+            </a>
+            <span>On‑field scouting sample</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="grid-2" style="margin-top: 16px;">
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Intriguing Underslot Deals – 2024 Draft</h3>
+            <span class="card-tag">Draft Report</span>
+          </div>
+          <p class="card-body">
+            Detailed breakdowns of underslot picks like Chris Cortez, Nate Dohm, LP Langevin, and others, with clear
+            risk/role framing and upside vs floor commentary.
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">2024 Draft</span>
+            <span class="meta-pill">Pitching focus</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://1drv.ms/b/c/a44a507d394c9c14/IQAUnEw5fVBKIICkIp8AAAAAARsBw62m6UmWPtBAwWfI49A?e=mSvyK3" target="_blank" rel="noopener">
+              View document <span>↗</span>
+            </a>
+            <span>Draft‑room style report</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">10 Prospects to Watch in the CCBL</h3>
+            <span class="card-tag">Summer Scouting</span>
+          </div>
+          <p class="card-body">
+            CCBL prospect list with notes on tools, performance, and projection—players like Ryder Helfrick, Nick
+            Dumesnil, Zion Rose, and Murf Gray.
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">Cape Cod League</span>
+            <span class="meta-pill">Prospect list</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://1drv.ms/w/c/a44a507d394c9c14/IQAU_R7rwVLmT7oWzZuwG96EAb52WObXTvsHFAjpk2-sDKE?e=byp0qw" target="_blank" rel="noopener">
+              View document <span>↗</span>
+            </a>
+            <span>Summer evaluation sample</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- WRITING -->
+    <section id="writing" class="section anchor">
+      <div class="section-header">
+        <h2 class="section-title">Writing & Communication</h2>
+        <p class="section-subtitle">
+          Long‑form analysis, scouting narratives, and data‑backed storytelling.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Outlier Pitches Article</h3>
+            <span class="card-tag">Feature</span>
+          </div>
+          <p class="card-body">
+            Explores how certain pitches break models and why they matter—tying movement data, usage, and hitter
+            reactions into a cohesive narrative.
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">Long‑form</span>
+            <span class="meta-pill">Pitch analysis</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://docs.google.com/document/d/10tSXMCaAbf7ABu52elRKWh5570Y7-PuqifJoewaP_RA/edit?usp=sharing" target="_blank" rel="noopener">
+              View article <span>↗</span>
+            </a>
+            <span>Analytics‑driven storytelling</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">10 Prospects to Watch in the CCBL</h3>
+            <span class="card-tag">Prospect Piece</span>
+          </div>
+          <p class="card-body">
+            Combines scouting detail with narrative pacing—highlighting tools, performance, and projection in a way that
+            reads like a professional prospect feature.
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">Prospect writing</span>
+            <span class="meta-pill">CCBL</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://1drv.ms/w/c/a44a507d394c9c14/IQAU_R7rwVLmT7oWzZuwG96EAb52WObXTvsHFAjpk2-sDKE?e=byp0qw" target="_blank" rel="noopener">
+              View article <span>↗</span>
+            </a>
+            <span>Scouting + narrative</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="grid-2" style="margin-top: 16px;">
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Intriguing Underslot Deals – 2024 Draft</h3>
+            <span class="card-tag">Draft Analysis</span>
+          </div>
+          <p class="card-body">
+            Draft‑focused piece that reads like internal analysis: risk, upside, role, and organizational fit for a set
+            of underslot picks.
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">Draft writing</span>
+            <span class="meta-pill">Pitching focus</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://1drv.ms/b/c/a44a507d394c9c14/IQAUnEw5fVBKIICkIp8AAAAAARsBw62m6UmWPtBAwWfI49A?e=mSvyK3" target="_blank" rel="noopener">
+              View article <span>↗</span>
+            </a>
+            <span>Role‑driven analysis</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <h3 class="card-title">Mitch Voit vs Max Muncy</h3>
+            <span class="card-tag">Comparative Piece</span>
+          </div>
+          <p class="card-body">
+            Uses comparative framing to communicate differences in tools, approach, and projection—mirroring how front
+            offices weigh options.
+          </p>
+          <div class="card-meta">
+            <span class="meta-pill">Comparative writing</span>
+            <span class="meta-pill">Infielders</span>
+          </div>
+          <div class="card-footer">
+            <a class="card-link" href="https://docs.google.com/document/d/1AXX2bGuDnqA-4jB0MN-T9WJZXTAAKkpO3dwp2jmv-1c/edit?usp=sharing" target="_blank" rel="noopener">
+              View article <span>↗</span>
+            </a>
+            <span>Decision‑support style</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section id="tech" class="section anchor">
+      <div class="section-header">
+        <h2 class="section-title">Tech Stack</h2>
+        <p class="section-subtitle">
+          Tools used across development, scouting, and analytics.
+        </p>
+      </div>
+
+      <article class="card">
+        <div class="card-header">
+          <h3 class="card-title">On‑Field & Lab Tech</h3>
+          <span class="card-tag">Tools</span>
+        </div>
+        <p class="card-body">
+          Experience working with a full modern baseball tech stack and integrating outputs into scouting reports,
+          development plans, and analytics projects.
+        </p>
+        <div class="card-meta">
+          <span class="meta-pill">BATS</span>
+          <span class="meta-pill">Rapsodo v3</span>
+          <span class="meta-pill">Hawkeye</span>
+          <span class="meta-pill">Stadium Trackman</span>
+          <span class="meta-pill">Portable Trackman</span>
+          <span class="meta-pill">Edgertronic</span>
+          <span class="meta-pill">Kinatrax</span>
+          <span class="meta-pill">Trajekt</span>
+          <span class="meta-pill">Blast</span>
+        </div>
+        <div class="card-footer">
+          <span>Comfortable translating raw tech outputs into clear, actionable language for players and staff.</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section anchor">
+      <div class="section-header">
+        <h2 class="section-title">Contact</h2>
+        <p class="section-subtitle">
+          For roles in university business/analytics, baseball ops, scouting, or player development.
+        </p>
+      </div>
+
+      <div class="contact-card">
+        </p>
+        <div class="contact-row">
+          <div class="contact-item">
+            <strong>Email:</strong> <span>quinnmartin1714@gmail.com</span>
+          </div>
+          <div class="contact-item">
+            <strong>LinkedIn:</strong> <span>linkedin.com/in/quinn_martin17</span>
+          </div>
+          <div class="contact-item">
+            <strong>Location:</strong> <span>Springfield, PA</span>
+          </div>
+        </div>
+        <p style="margin-top: 10px; font-size: 12px; color: var(--muted);">
+          Resume, additional writing samples, and raw data files available on request.
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Quinn Martin — Portfolio built around real work, not hypotheticals.
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
