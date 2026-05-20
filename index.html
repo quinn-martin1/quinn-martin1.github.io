@@ -4,497 +4,10 @@
   <meta charset="UTF-8" />
   <title>Quinn Martin | Player Development • Analytics • Scouting</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --bg: #05060a;
-      --bg-alt: #0c0f18;
-      --card: #111624;
-      --accent: #3fb4ff;
-      --accent-soft: rgba(63, 180, 255, 0.12);
-      --text: #f5f7ff;
-      --muted: #a5afc7;
-      --border: #22283a;
-      --danger: #ff6b6b;
-      --radius-lg: 14px;
-      --radius-md: 10px;
-      --radius-sm: 6px;
-      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
-      --shadow-subtle: 0 10px 30px rgba(0, 0, 0, 0.35);
-      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Segoe UI", sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: var(--font-main);
-      background: #f7f8fa;
-      color: var(--text);
-      color: var(--text);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .page {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 32px 20px 64px;
-    }
-
-    /* NAVBAR */
-
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(16px);
-      background: linear-gradient(
-        to bottom,
-        rgba(5, 6, 10, 0.92),
-        rgba(5, 6, 10, 0.75),
-        transparent
-      );
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    }
-
-    .nav-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 14px 20px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #3fb4ff, #7b5cff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 16px;
-      color: #05060a;
-      box-shadow: 0 0 0 2px rgba(63, 180, 255, 0.4);
-    }
-
-    .nav-name {
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      font-size: 15px;
-    }
-
-    .nav-tagline {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .nav-right {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: flex-end;
-    }
-
-    .nav-link {
-      font-size: 13px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      color: var(--muted);
-      border: 1px solid transparent;
-      cursor: pointer;
-      background: transparent;
-    }
-
-    .nav-link:hover {
-      border-color: rgba(63, 180, 255, 0.4);
-      color: var(--text);
-      background: rgba(63, 180, 255, 0.06);
-    }
-
-    .nav-link.primary {
-      border-color: rgba(63, 180, 255, 0.7);
-      background: linear-gradient(
-        135deg,
-        rgba(63, 180, 255, 0.18),
-        rgba(123, 92, 255, 0.18)
-      );
-      color: var(--text);
-    }
-
-    /* HERO */
-
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
-      gap: 32px;
-      margin-top: 32px;
-      margin-bottom: 40px;
-    }
-
-    @media (max-width: 860px) {
-      .hero {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .hero-main {
-      padding: 24px 24px 26px;
-      border-radius: 20px;
-      background: radial-gradient(circle at top left, #1f2740, #0a0d16 55%);
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(63, 180, 255, 0.12);
-      border: 1px solid rgba(63, 180, 255, 0.4);
-      color: var(--accent);
-      font-size: 11px;
-      margin-bottom: 14px;
-    }
-
-    .hero-pill-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #3fb4ff;
-      box-shadow: 0 0 0 4px rgba(63, 180, 255, 0.25);
-    }
-
-    .hero-title {
-      font-size: 30px;
-      line-height: 1.15;
-      letter-spacing: 0.01em;
-      margin-bottom: 10px;
-    }
-
-    .hero-subtitle {
-      font-size: 15px;
-      color: var(--muted);
-      max-width: 520px;
-      margin-bottom: 18px;
-    }
-
-    .hero-metrics {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .metric-pill {
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      background: rgba(5, 6, 10, 0.6);
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .metric-pill strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 6px;
-    }
-
-    .btn {
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-size: 13px;
-      border: 1px solid transparent;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: transparent;
-      color: var(--text);
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #3fb4ff, #7b5cff);
-      border-color: rgba(255, 255, 255, 0.1);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
-    }
-
-    .btn-outline {
-      border-color: rgba(255, 255, 255, 0.12);
-      background: rgba(5, 6, 10, 0.7);
-      color: var(--muted);
-    }
-
-    .hero-note {
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    .hero-orbit {
-      position: absolute;
-      right: -40px;
-      bottom: -40px;
-      width: 220px;
-      height: 220px;
-      border-radius: 999px;
-      border: 1px dashed rgba(63, 180, 255, 0.35);
-      background: radial-gradient(circle at 30% 20%, #3fb4ff22, transparent 60%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0.9;
-    }
-
-    .hero-orbit-inner {
-      width: 120px;
-      height: 120px;
-      border-radius: 999px;
-      border: 1px solid rgba(123, 92, 255, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      text-align: center;
-      color: var(--muted);
-      background: radial-gradient(circle at top, #151a2b, #05060a);
-    }
-
-    .hero-side {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .hero-card {
-      padding: 16px 16px 14px;
-      border-radius: 16px;
-      background: rgba(5, 6, 10, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      box-shadow: var(--shadow-subtle);
-    }
-
-    .hero-card-title {
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .hero-card-sub {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .hero-chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .chip {
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: var(--muted);
-      background: rgba(10, 12, 20, 0.9);
-    }
-
-    .chip.accent {
-      border-color: rgba(63, 180, 255, 0.6);
-      color: var(--accent);
-      background: rgba(63, 180, 255, 0.08);
-    }
-
-    /* SECTIONS */
-
-    .section {
-      margin-bottom: 40px;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-    }
-
-    .section-subtitle {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.4fr);
-      gap: 18px;
-    }
-
-    @media (max-width: 860px) {
-      .grid-2 {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .card {
-      padding: 14px 14px 12px;
-      border-radius: var(--radius-lg);
-      background: var(--card);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-subtle);
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 6px;
-    }
-
-    .card-title {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .card-tag {
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: rgba(63, 180, 255, 0.08);
-      color: var(--accent);
-      border: 1px solid rgba(63, 180, 255, 0.4);
-      white-space: nowrap;
-      height: fit-content;
-    }
-
-    .card-body {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .card-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 6px;
-    }
-
-    .meta-pill {
-      font-size: 11px;
-      padding: 3px 7px;
-      border-radius: 999px;
-      background: rgba(5, 6, 10, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: var(--muted);
-    }
-
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-    }
-
-    .card-link {
-      font-size: 11px;
-      color: var(--accent);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .card-link span {
-      font-size: 13px;
-    }
-
-    /* CONTACT */
-
-    .contact-card {
-      padding: 18px 16px 16px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #111624, #090c14);
-      border: 1px solid rgba(63, 180, 255, 0.4);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .contact-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .contact-item {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .contact-item strong {
-      color: var(--text);
-    }
-
-    footer {
-      margin-top: 40px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      font-size: 11px;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    /* ANCHOR OFFSET */
-
-    .anchor {
-      scroll-margin-top: 80px;
-    }
-  </style>
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
-  <header class="nav">
+  <header class="site-header">
     <div class="nav-inner">
       <div class="nav-left">
         <div class="nav-avatar">Q</div>
@@ -506,6 +19,7 @@
         </div>
       </div>
       <nav class="nav-right">
+        <button class="nav-link" onclick="document.getElementById('resume').scrollIntoView({behavior:'smooth'})">Resume</button>
         <button class="nav-link" onclick="document.getElementById('player-dev').scrollIntoView({behavior:'smooth'})">Player Development</button>
         <button class="nav-link" onclick="document.getElementById('analytics').scrollIntoView({behavior:'smooth'})">Analytics</button>
         <button class="nav-link" onclick="document.getElementById('scouting').scrollIntoView({behavior:'smooth'})">Scouting</button>
@@ -536,8 +50,8 @@
           <div class="metric-pill"><strong>200+</strong> individualized lessons</div>
           <div class="metric-pill"><strong>30+</strong> athletes coached</div>
           <div class="metric-pill"><strong>$10,000+</strong> lesson revenue</div>
-          <div class="metric-pill"><strong>25+</strong> paid pieces</div>
-          <div class="metric-pill"><strong>4</strong> podcast episodes</div>
+          <div class="metric-pill"><strong>100+</strong> scouting reports</div>
+          <div class="metric-pill"><strong>5</strong> podcast episodes</div>
         </div>
 
         <div class="hero-actions">
@@ -547,20 +61,13 @@
         <div class="hero-note">
           Built around real work: development plans, scouting reports, data projects, and tech‑driven training.
         </div>
-
-        <div class="hero-orbit">
-          <div class="hero-orbit-inner">
-            Player development<br />+ scouting<br />+ analytics<br /><br />
-            One integrated portfolio.
-          </div>
-        </div>
       </div>
 
       <aside class="hero-side">
         <div class="hero-card">
           <div class="hero-card-title">Profile Snapshot</div>
           <div class="hero-card-sub">
-            Player Development Coach • Baseball Writer & Scouting Analyst • Business/Data Analyst.
+            Player Development Coach • Baseball Writer &amp; Scouting Analyst • Business/Data Analyst.
           </div>
           <div class="hero-chip-row">
             <span class="chip accent">Player Development</span>
@@ -578,9 +85,9 @@
           </div>
           <div class="hero-chip-row">
             <span class="chip">Development plans</span>
-            <span class="chip">Pitch & swing analysis</span>
+            <span class="chip">Pitch &amp; swing analysis</span>
             <span class="chip">Database projects</span>
-            <span class="chip">Draft & CCBL reports</span>
+            <span class="chip">Draft &amp; CCBL reports</span>
             <span class="chip">Writing samples</span>
           </div>
         </div>
@@ -668,7 +175,7 @@
         <article class="card">
           <div class="card-header">
             <h3 class="card-title">Intriguing Underslot Deals – 2024 Draft</h3>
-            <span class="card-tag">Draft & Dev</span>
+            <span class="card-tag">Draft &amp; Dev</span>
           </div>
           <p class="card-body">
             Deep dives on arms like Chris Cortez, Nate Dohm, LP Langevin, and others, with clear role projections and
@@ -692,7 +199,7 @@
     <!-- ANALYTICS -->
     <section id="analytics" class="section anchor">
       <div class="section-header">
-        <h2 class="section-title">Analytics & Data Projects</h2>
+        <h2 class="section-title">Analytics &amp; Data Projects</h2>
         <p class="section-subtitle">
           Database work, pitch modeling, and early‑season signal hunting.
         </p>
@@ -721,7 +228,6 @@
           </div>
         </article>
 
-      <div class="grid-2" style="margin-top: 16px;">
         <article class="card">
           <div class="card-header">
             <h3 class="card-title">Intriguing Data Points from Opening Weekend</h3>
@@ -742,7 +248,9 @@
             <span>Analytics + feel blend</span>
           </div>
         </article>
+      </div>
 
+      <div class="grid-2" style="margin-top: 16px;">
         <article class="card">
           <div class="card-header">
             <h3 class="card-title">Outlier Pitches Article</h3>
@@ -769,7 +277,7 @@
     <!-- SCOUTING -->
     <section id="scouting" class="section anchor">
       <div class="section-header">
-        <h2 class="section-title">Scouting Reports & Live Looks</h2>
+        <h2 class="section-title">Scouting Reports &amp; Live Looks</h2>
         <p class="section-subtitle">
           Draft, CCBL, and game‑specific evaluations with clear role projections.
         </p>
@@ -867,7 +375,7 @@
     <!-- WRITING -->
     <section id="writing" class="section anchor">
       <div class="section-header">
-        <h2 class="section-title">Writing & Communication</h2>
+        <h2 class="section-title">Writing &amp; Communication</h2>
         <p class="section-subtitle">
           Long‑form analysis, scouting narratives, and data‑backed storytelling.
         </p>
@@ -973,7 +481,7 @@
 
       <article class="card">
         <div class="card-header">
-          <h3 class="card-title">On‑Field & Lab Tech</h3>
+          <h3 class="card-title">On‑Field &amp; Lab Tech</h3>
           <span class="card-tag">Tools</span>
         </div>
         <p class="card-body">
@@ -996,6 +504,130 @@
         </div>
       </article>
     </section>
+<!-- RESUME -->
+<section id="resume" class="section anchor">
+  <div class="section-header">
+    <h2 class="section-title">Resume</h2>
+    <p class="section-subtitle">
+      Business & data analytics experience across sports, operations, and technology.
+    </p>
+  </div>
+
+  <article class="card">
+    <div class="card-header">
+      <h3 class="card-title">Professional Summary</h3>
+      <span class="card-tag">Overview</span>
+    </div>
+    <p class="card-body">
+      Results-driven analyst with hands-on experience turning raw data into actionable business insights. Skilled in SQL, Excel, and data visualization with a track record of improving operational efficiency, identifying market trends, and delivering recommendations that drive measurable outcomes. Combines analytical rigor with clear communication to translate complex data for diverse stakeholders.
+    </p>
+  </article>
+
+  <article class="card" style="margin-top: 16px;">
+    <div class="card-header">
+      <h3 class="card-title">Core Competencies</h3>
+      <span class="card-tag">Skills</span>
+    </div>
+    <div class="card-meta">
+      <span class="meta-pill">SQL</span>
+      <span class="meta-pill">Advanced Excel</span>
+      <span class="meta-pill">Tableau</span>
+      <span class="meta-pill">Data QA</span>
+      <span class="meta-pill">Trend Analysis</span>
+      <span class="meta-pill">KPI Reporting</span>
+      <span class="meta-pill">Process Improvement</span>
+      <span class="meta-pill">Cross-functional Collaboration</span>
+      <span class="meta-pill">Stakeholder Communication</span>
+    </div>
+  </article>
+
+  <div class="section-header" style="margin-top: 28px;">
+    <h2 class="section-title">Experience</h2>
+  </div>
+
+  <!-- Experience Cards -->
+  <div class="grid-2">
+
+    <article class="card">
+      <div class="card-header">
+        <h3 class="card-title">All Star Sports Academy</h3>
+        <span class="card-tag">Baseball Instructor</span>
+      </div>
+      <p class="card-body">
+        Trained 30+ athletes using individualized plans and weekly data tracking. Generated $10,000+ in lesson revenue and executed 100+ outbound client contacts weekly. Logged and analyzed 200+ lessons and led pitch design work improving command and movement profiles.
+      </p>
+    </article>
+
+    <article class="card">
+      <div class="card-header">
+        <h3 class="card-title">Prospects Live</h3>
+        <span class="card-tag">Draft Analyst</span>
+      </div>
+      <p class="card-body">
+        Produced 25+ pieces of paid baseball content including scouting reports and long-form analysis. Delivered conference-wide evaluations and participated in 5 podcast episodes providing national prospect insights.
+      </p>
+    </article>
+
+    <article class="card">
+      <div class="card-header">
+        <h3 class="card-title">Chicago Cubs (AA)</h3>
+        <span class="card-tag">Tech & Data Ops Analyst</span>
+      </div>
+      <p class="card-body">
+        Managed 6+ advanced tracking systems (Hawkeye, Trackman, Kinatrax, Rapsodo) across 130+ games. Administered a 10-camera video network and led daily data collection sessions feeding predictive models. Tagged and classified high-speed video to improve analytics pipelines.
+      </p>
+    </article>
+
+    <article class="card">
+      <div class="card-header">
+        <h3 class="card-title">CollX</h3>
+        <span class="card-tag">Data & Merchandising Analyst Intern</span>
+      </div>
+      <p class="card-body">
+        Analyzed marketplace trends across millions of SKUs, delivered data-driven recommendations, and wrote SQL queries supporting database management and reporting.
+      </p>
+    </article>
+
+    <article class="card">
+      <div class="card-header">
+        <h3 class="card-title">USLI</h3>
+        <span class="card-tag">Instant Quote Ops Intern</span>
+      </div>
+      <p class="card-body">
+        Redesigned reporting processes, improved Excel workflows, and trained new team members. Identified workflow bottlenecks and improved operational throughput.
+      </p>
+    </article>
+
+    <article class="card">
+      <div class="card-header">
+        <h3 class="card-title">Perfect Game</h3>
+        <span class="card-tag">Content & Analytics Intern</span>
+      </div>
+      <p class="card-body">
+        Produced 103 analytical profiles, created 100+ multimedia assets generating 362,500+ views, and built a professional network across data and operations.
+      </p>
+    </article>
+
+  </div>
+
+  <div class="section-header" style="margin-top: 28px;">
+    <h2 class="section-title">Education</h2>
+  </div>
+
+  <article class="card">
+    <div class="card-header">
+      <h3 class="card-title">University of South Carolina</h3>
+      <span class="card-tag">B.S. Sport & Entertainment Management</span>
+    </div>
+    <p class="card-body">
+      Magna Cum Laude (3.87 GPA). Dean’s List (5 semesters), President’s List (1 semester).
+    </p>
+  </article>
+
+  <div style="margin-top: 24px;">
+    <a href="Quinn Martin Resume.pdf" class="btn btn-primary" download>Download Resume (PDF)</a>
+  </div>
+</section>
 
     <!-- CONTACT -->
     <section id="contact" class="section anchor">
@@ -1007,7 +639,6 @@
       </div>
 
       <div class="contact-card">
-        </p>
         <div class="contact-row">
           <div class="contact-item">
             <strong>Email:</strong> <span>quinnmartin1714@gmail.com</span>
@@ -1019,7 +650,7 @@
             <strong>Location:</strong> <span>Springfield, PA</span>
           </div>
         </div>
-        <p style="margin-top: 10px; font-size: 12px; color: var(--muted);">
+        <p style="margin-top: 10px; font-size: 12px; color: #5b6478;">
           Resume, additional writing samples, and raw data files available on request.
         </p>
       </div>
@@ -1034,4 +665,448 @@
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
-</html>
+  <style>
+   :root {
+  --bg: #f7f9fc;
+  --bg-alt: #ffffff;
+  --nav: #0a1a3c;
+  --primary: #0a3c7d;
+  --primary-soft: #e3ecf9;
+  --border: #d4d9e6;
+  --text-main: #1a1a1a;
+  --text-muted: #5b6478;
+  --card-bg: #ffffff;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.12);
+  --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+
+/* NAVBAR */
+
+.site-header {
+  background: var(--nav);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.nav-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--nav);
+}
+
+.nav-name {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-size: 16px;
+}
+
+.nav-tagline {
+  font-size: 12px;
+  color: #d0d7f0;
+}
+
+.nav-right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.nav-link {
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  color: #e5ebff;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  border-color: #e5ebff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-link.primary {
+  border-color: #ffffff;
+  background: #ffffff;
+  color: var(--nav);
+}
+
+/* HERO */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+  gap: 32px;
+  margin-top: 32px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.hero-main {
+  padding: 28px 26px 26px;
+  border-radius: 16px;
+  background: var(--bg-alt);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border);
+}
+
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  border: 1px solid #c2d4f5;
+  color: var(--primary);
+  font-size: 11px;
+  margin-bottom: 14px;
+}
+
+.hero-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--primary);
+}
+
+.hero-title {
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+  color: var(--nav);
+}
+
+.hero-subtitle {
+  font-size: 15px;
+  color: var(--text-muted);
+  max-width: 520px;
+  margin-bottom: 18px;
+}
+
+.hero-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.metric-pill {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #f2f4fb;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.metric-pill strong {
+  color: var(--nav);
+  font-weight: 600;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.btn {
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 13px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--nav);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
+.btn-outline {
+  border-color: var(--border);
+  background: #ffffff;
+  color: var(--text-muted);
+}
+
+.hero-note {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.hero-side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hero-card {
+  padding: 16px 16px 14px;
+  border-radius: 14px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--nav);
+}
+
+.hero-card-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.hero-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  background: #f5f7fc;
+}
+
+.chip.accent {
+  border-color: #c2d4f5;
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+
+/* SECTIONS */
+
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--nav);
+}
+
+.section-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.4fr);
+  gap: 18px;
+}
+
+@media (max-width: 860px) {
+  .grid-2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.card {
+  padding: 14px 14px 12px;
+  border-radius: var(--radius-lg);
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--nav);
+}
+
+.card-tag {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  border: 1px solid #c2d4f5;
+  white-space: nowrap;
+  height: fit-content;
+}
+
+.card-body {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.meta-pill {
+  font-size: 11px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: #f5f7fc;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.card-link {
+  font-size: 11px;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.card-link span {
+  font-size: 13px;
+}
+
+/* CONTACT */
+
+.contact-card {
+  padding: 18px 16px 16px;
+  border-radius: 14px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+}
+
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.contact-item {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.contact-item strong {
+  color: var(--nav);
+}
+
+footer {
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ANCHOR OFFSET */
+
+.anchor {
+  scroll-margin-top: 90px;
+}
+ 
